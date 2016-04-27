@@ -1,0 +1,9 @@
+{
+    "foo": "foo",
+    "bar": "bar",
+    "baz": "baz",
+    "quux": {
+        "fred": "fred",
+        "help": "help"
+    }
+}

@@ -1,0 +1,8 @@
+ui: tape
+browserify:
+  - transform: babelify
+  - debug: true
+browsers:
+  - name: chrome
+    version: latest
+

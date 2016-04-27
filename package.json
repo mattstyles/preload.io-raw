@@ -1,0 +1,30 @@
+{
+  "name": "preload.io-raw",
+  "version": "0.0.0",
+  "description": "Preload.io loader for returning responses",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "prepack": "npm run build",
+    "build": "babel src --out-dir lib",
+    "watch": "babel src --out-dir lib --watch",
+    "prestart": "npm run build",
+    "start": "budo examples --live",
+    "pretest": "npm run build",
+    "test": "zuul --open --local 8080 -- spec/*.js"
+  },
+  "babel": {
+    "presets": "urban"
+  },
+  "browserify": {
+    "transform": "babelify"
+  },
+  "author": "Matt Styles",
+  "repository": "git://github.com/mattstyles/preload.io-raw.git",
+  "license": "MIT",
+  "peerDependencies": {
+    "preload.io": "^1"
+  },
+  "devDependencies": {
+  }
+}
