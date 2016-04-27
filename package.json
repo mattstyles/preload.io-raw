@@ -1,6 +1,6 @@
 {
   "name": "preload.io-raw",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Preload.io loader for returning responses",
   "main": "lib/index.js",
   "scripts": {
