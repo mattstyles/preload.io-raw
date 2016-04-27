@@ -15,39 +15,39 @@ class IOError extends Error {
 }
 
 
-export default class JSONLoader {
+export default class RawLoader {
   constructor( opts ) {
-    this.name = 'JSONLoader'
-    this.match = /json$/
+    this.name = 'RawLoader'
+    this.match = /txt$|md$|html$|svg$/
     this.opts = opts
   }
 
   async load( ctx, opts ) {
     let res = null
-    let json = null
+    let body = null
     try {
       res = await fetch( opts.resource, Object.assign( {}, this.opts, opts.options ) )
-          .then( response => {
-            if ( response.ok || response.type === 'opaque' ) {
-              return response
-            }
+        .then( response => {
+          if ( response.ok || response.type === 'opaque' ) {
+            return response
+          }
 
+          throw new IOError({
+            message: response.statusText,
+            status: response.status
+          })
+        })
+        .then( async response => {
+          try {
+            body = await response.text()
+          } catch( err ) {
             throw new IOError({
-              message: response.statusText,
+              message: 'Error turning response into text',
               status: response.status
             })
-          })
-          .then( async response => {
-            try {
-              json = await response.json()
-            } catch( err ) {
-              throw new IOError({
-                message: 'Error turning response into json',
-                status: response.status
-              })
-            }
-            return response
-          })
+          }
+          return response
+        })
     } catch( err ) {
       ctx.emit( EVENTS.LOAD_ERROR, {
         id: opts.id,
@@ -60,9 +60,9 @@ export default class JSONLoader {
     ctx.emit( EVENTS.LOAD, {
       id: opts.id,
       status: res.status,
-      res: json
+      res: body
     })
   }
 }
 
-module.exports = JSONLoader
+module.exports = RawLoader
